@@ -1,0 +1,20 @@
+<ion-card [routerLink]="['../welcome']">
+  <ion-card-header>
+    <div id="cabecera">
+      <ion-item>
+        <img id="avatar" src="https://cdn-icons-png.flaticon.com/512/3607/3607444.png">
+      </ion-item>
+      <ion-card-title>{{user?.nombre}} {{user?.apellidos | slice:0:1}}</ion-card-title>
+    </div>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-card-subtitle>Nombre:</ion-card-subtitle>
+    <ion-card-content>{{user?.nombre}}</ion-card-content>
+
+    <ion-card-subtitle>Apellidos:</ion-card-subtitle>
+    <ion-card-content>{{user?.apellidos}}</ion-card-content>
+
+    <ion-card-subtitle>Edad:</ion-card-subtitle>
+    <ion-card-content>{{user?.edad}}</ion-card-content>
+  </ion-card-content>
+</ion-card>

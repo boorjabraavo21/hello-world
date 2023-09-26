@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Blank
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-button [routerLink]="['../welcome']">Ir a Welcome</ion-button>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Blank</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div id="personas">
+    <app-user-info [user]="usuario1" class="persona"></app-user-info>
+    <app-user-info [user]="usuario2" class="persona"></app-user-info>
+    <app-user-info [user]="usuario3" class="persona"></app-user-info>
+    <app-user-info [user]="usuario4" class="persona"></app-user-info>
+    <app-user-info [user]="usuario5" class="persona"></app-user-info>
+  </div>
+  <div id="container">
+    <strong>Ready to create an app?</strong>
+    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer"
+        href="https://ionicframework.com/docs/components">UI Components</a></p>
+  </div>
+
+</ion-content>
