@@ -14,11 +14,8 @@
     </ion-toolbar>
   </ion-header>
   <div id="personas">
-    <app-user-info [user]="usuario1" class="persona"></app-user-info>
-    <app-user-info [user]="usuario2" class="persona"></app-user-info>
-    <app-user-info [user]="usuario3" class="persona"></app-user-info>
-    <app-user-info [user]="usuario4" class="persona"></app-user-info>
-    <app-user-info [user]="usuario5" class="persona"></app-user-info>
+    <app-user-info *ngFor="let user of users$ | async" [user]="user" class="persona"></app-user-info>
+    
   </div>
   <div id="container">
     <strong>Ready to create an app?</strong>
