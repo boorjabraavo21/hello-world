@@ -1,10 +1,15 @@
-<ion-card [routerLink]="['../welcome']">
+<!--ion-card [routerLink]="['../welcome']"-->
+<ion-card>
   <ion-card-header>
     <div id="cabecera">
       <ion-item>
         <img id="avatar" src="https://cdn-icons-png.flaticon.com/512/3607/3607444.png">
       </ion-item>
       <ion-card-title>{{user?.nombre}} {{user?.apellidos | slice:0:1}}</ion-card-title>
+      <ion-button class="fav-button" fill="clear" aria-label="Favorite" (click)="onFavClick($event)">
+        <ion-icon *ngIf="user?.fav" slot="icon-only" color="danger" name="heart" aria-hidden="true"></ion-icon>
+        <ion-icon *ngIf="!user?.fav" slot="icon-only" color="medium" name="heart-outline" aria-hidden="true"></ion-icon>
+      </ion-button>
     </div>
   </ion-card-header>
   <ion-card-content>
