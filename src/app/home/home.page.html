@@ -7,17 +7,15 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button [routerLink]="['../welcome']">Ir a Welcome</ion-button>
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Blank</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-button (click)="welcome()">Ir a Welcome</ion-button>
   <div id="personas">
-    <app-user-info *ngFor="let user of users$ | async" [user]="user" (onFavClicked)="onFavClicked(user, $event)" class="persona"></app-user-info>    
+    <app-user-info *ngFor="let user of users.users$ | async" [user]="user" (onFavClicked)="onFavClicked(user, $event)" 
+    (onCardClicked)="onCardClicked()" (onDeleteClicked)="onDeleteClicked(user)" class="persona"></app-user-info>    
   </div>
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-loading [isOpen]="loading" class="custom-loading" message="Loading..."></ion-loading>
 </ion-content>

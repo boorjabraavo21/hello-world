@@ -1,18 +1,21 @@
-<!--ion-card [routerLink]="['../welcome']"-->
-<ion-card>
+<ion-card button (click)="onCardClick()">
   <ion-card-header>
+    <ion-button class="close-button" fill="clear" aria-label="Delete" (click)="onDeleteClick($event)">
+      <ion-icon slot="icon-only"  color="primary" name="trash" aria-hidden="true"></ion-icon>
+    </ion-button>
+    <ion-button class="fav-button" fill="clear" aria-label="Favorite" (click)="onFavClick($event)">
+      <ion-icon *ngIf="user?.fav" slot="icon-only" color="danger" name="heart" aria-hidden="true"></ion-icon>
+      <ion-icon *ngIf="!user?.fav" slot="icon-only" color="medium" name="heart-outline" aria-hidden="true"></ion-icon>
+    </ion-button>
     <div id="cabecera">
       <ion-item>
-        <img id="avatar" src="https://cdn-icons-png.flaticon.com/512/3607/3607444.png">
+        <img id="avatar" alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg">
       </ion-item>
       <ion-card-title>{{user?.nombre}} {{user?.apellidos | slice:0:1}}</ion-card-title>
-      <ion-button class="fav-button" fill="clear" aria-label="Favorite" (click)="onFavClick($event)">
-        <ion-icon *ngIf="user?.fav" slot="icon-only" color="danger" name="heart" aria-hidden="true"></ion-icon>
-        <ion-icon *ngIf="!user?.fav" slot="icon-only" color="medium" name="heart-outline" aria-hidden="true"></ion-icon>
-      </ion-button>
+      
     </div>
   </ion-card-header>
-  <ion-card-content>
+  <ion-card-content [routerLink]="['../welcome']">
     <ion-card-subtitle>Nombre:</ion-card-subtitle>
     <ion-card-content>{{user?.nombre}}</ion-card-content>
 
