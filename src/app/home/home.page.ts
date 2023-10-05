@@ -4,6 +4,8 @@ import { UserInfoFavClicked } from './userinfofavclicked';
 import { ToastController, ToastOptions } from '@ionic/angular';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
+import { FavService } from '../fav.service';
+import { zip } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -18,33 +20,33 @@ export class HomePage implements OnInit {
   constructor(
     private router:Router,
     private toast:ToastController,
-    public users:UserService
+    public users:UserService,
+    public favs:FavService
   ) {}
 
   ngOnInit(): void {
     this.loading = true;
-    this.users.getAll().subscribe(users=> {
+    zip(this.users.getAll(),this.favs.getAll()).subscribe(results=> {
       this.loading = false;
     });
   }
 
-  onFavClicked(user:User, event:UserInfoFavClicked) {
-    var _user:User = {...user};
-    _user.fav = event.fav??false;
-    this.users.updateUser(_user).subscribe({
+  public onFavClicked(user:User, event:UserInfoFavClicked) {
+    var obs = (event?.fav)?this.favs.addFav(user.id):this.favs.deleteFav(user.id);
+    obs.subscribe({
       next: user=>{
-      const options:ToastOptions = {
-        message:`User ${event.fav?'added':'removed'} ${event.fav?'to':'from'} favourites`,
-        duration: 1000,
-        position: 'bottom',
-        color: 'danger',
-        cssClass: 'fav-ion-toast'
-      };
-      this.toast.create(options).then(toast=>toast.present());
-      },
-      error: err=>{
-        console.log(err);
-      }
+        const options:ToastOptions = {
+          message:`User ${event.fav?'added':'removed'} ${event.fav?'to':'from'} favourites`,
+          duration: 1000,
+          position: 'bottom',
+          color: 'danger',
+          cssClass: 'fav-ion-toast'
+        };
+        this.toast.create(options).then(toast=>toast.present());
+        },
+        error: err=>{
+          console.log(err);
+        }
     });
   }
 

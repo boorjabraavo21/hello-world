@@ -1,6 +1,6 @@
 <ion-card button (click)="onCardClick()">
   <ion-card-header>
-    <ion-button class="close-button" fill="clear" aria-label="Delete" (click)="onDeleteClick($event)">
+    <ion-button class="delete-button" fill="clear" aria-label="Delete" (click)="onDeleteClick($event)">
       <ion-icon slot="icon-only"  color="primary" name="trash" aria-hidden="true"></ion-icon>
     </ion-button>
     <ion-button class="fav-button" fill="clear" aria-label="Favorite" (click)="onFavClick($event)">
@@ -15,7 +15,7 @@
       
     </div>
   </ion-card-header>
-  <ion-card-content [routerLink]="['../welcome']">
+  <ion-card-content>
     <ion-card-subtitle>Nombre:</ion-card-subtitle>
     <ion-card-content>{{user?.nombre}}</ion-card-content>
 

@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from './home/user';
 
-@Injectable({
-  providedIn: 'root'
-})
 
 export class UserNotFoundException extends Error {
   
 }
 
+@Injectable({
+  providedIn: 'root'
+})
 export class UserService {
 
   private _users:BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
