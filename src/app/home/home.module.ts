@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { HomePageRoutingModule } from './home-routing.module';
+import { FavsPipe } from './favs.pipe';
 
 
 
@@ -15,6 +16,6 @@ import { HomePageRoutingModule } from './home-routing.module';
     IonicModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage, UserInfoComponent]
+  declarations: [HomePage, UserInfoComponent, FavsPipe]
 })
 export class HomePageModule {}

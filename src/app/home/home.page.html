@@ -14,7 +14,7 @@
   </ion-header>
   <ion-button (click)="welcome()">Ir a Welcome</ion-button>
   <div id="personas">
-    <app-user-info *ngFor="let user of users.users$ | async" 
+    <app-user-info *ngFor="let user of (users.users$ | async) | favs:(favs.fav_users$ | async)" 
     [user]="user" (onFavClicked)="onFavClicked(user, $event)" (onCardClicked)="onCardClicked()" 
     (onDeleteClicked)="onDeleteClicked(user)" class="persona"></app-user-info>    
   </div>

@@ -3,10 +3,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Fav } from './home/fav';
 import { UserNotFoundException } from './user.service';
 
-export class UserAlreadyAddedException extends Error {
-
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -36,15 +32,10 @@ export class FavService {
     return new Observable(observer=>{
       setTimeout(()=>{
         var favs = [...this._fav_users.value];
-        var fav = this._fav_users.value.find(f=>f.id == idF);
-        if (fav) {
-          observer.error(new UserAlreadyAddedException());
-        } else {
-          var new_fav:Fav = {id: idF};
-          favs.push(new_fav);
-          observer.next(new_fav);
-          this._fav_users.next(favs);
-        }
+        var new_fav:Fav = {id: idF};
+        favs.push(new_fav);
+        observer.next(new_fav);
+        this._fav_users.next(favs);
         observer.complete();
       },500);
     })
@@ -53,18 +44,18 @@ export class FavService {
   public deleteFav(idF:number):Observable<Fav> {
     return new Observable(observer=>{
       setTimeout(()=>{
-        var fav = this._fav_users.value.find(f=>f.id == idF);
         var favs = [...this._fav_users.value];
-        if (fav) {
-          favs = [...favs.slice(0,fav.id),...favs.slice(fav.id+1)];
-          this._fav_users.next(favs);
-          observer.next(fav);
-        } else {
+        var index = favs.findIndex(f => f.id == idF);
+        if (index < 0) {
           observer.error(new UserNotFoundException());
+        } else {
+          favs = [...favs.slice(0,index),...favs.slice(index+1)];
+          this._fav_users.next(favs);
+          observer.next(favs[index]);
         }
         observer.complete();
       },500);
-    })
+    });
   }
 
   public deleteAll():Observable<void> {
