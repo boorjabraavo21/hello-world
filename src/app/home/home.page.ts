@@ -84,4 +84,5 @@ export class HomePage implements OnInit {
     const toast = await this.toast.create(options);
     toast.present();
   }
+
 }
