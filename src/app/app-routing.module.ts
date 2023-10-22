@@ -15,6 +15,10 @@ const routes: Routes = [
     path: 'welcome',
     loadChildren: () => import('./welcome/welcome.module').then( m => m.WelcomePageModule)
   },
+  {
+    path: 'fav-page',
+    loadChildren: () => import('./fav-page/fav-page.module').then( m => m.FavPagePageModule)
+  },
 ];
 
 @NgModule({

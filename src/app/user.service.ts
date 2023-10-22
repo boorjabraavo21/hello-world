@@ -11,11 +11,21 @@ export class UserNotFoundException extends Error {
   providedIn: 'root'
 })
 export class UserService {
-
+  id:number = 0;
   private _users:BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
   public users$:Observable<User[]> = this._users.asObservable();
 
   constructor() { }
+
+  public addUser(user:User):Observable<User> {
+    return new Observable<User>(observer=>{
+      var users = [...this._users.value];
+      user.id = ++this.id;
+      users.push(user);
+      this._users.next(users);
+      observer.next(user);
+    })
+  }
 
   public getAll():Observable<User[]> {
     return new Observable(observer=> {
@@ -27,6 +37,7 @@ export class UserService {
           {id: 4,nombre: "Olga",apellidos: "Carmona García",edad: 23, fav: false},
           {id: 5,nombre: "Aitana",apellidos: "Ocaña Morales",edad: 24,fav: true}
         ];
+        this.id = 5;
         this._users.next(users);
         observer.next(users);
         observer.complete();

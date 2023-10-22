@@ -1,7 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      <ion-button (click)="welcome()">Ir a Welcome</ion-button>
+      <ion-button (click)="favPage()">Ir a favoritos</ion-button>
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -12,11 +13,14 @@
       <ion-title size="large">Blank</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-button (click)="welcome()">Ir a Welcome</ion-button>
+  
+  <ion-button fill="clear" (click)="onNewUser()">
+    <ion-icon slot="icon-only" color="primary" aria-hidden="true" name="add-outline"></ion-icon>
+  </ion-button>
   <div id="personas">
     <app-user-info *ngFor="let user of (users.users$ | async) | favs:(favs.fav_users$ | async)" 
-    [user]="user" (onFavClicked)="onFavClicked(user, $event)" (onCardClicked)="onCardClicked()" 
-    (onDeleteClicked)="onDeleteClicked(user)" class="persona"></app-user-info>    
+    [user]="user" (onFavClicked)="onFavClicked(user, $event)" (onCardClicked)="onCardClicked(user)" 
+    (onDeleteClicked)="onDeleteClicked(user)" class="persona"></app-user-info>
   </div>
   <ion-loading [isOpen]="loading" class="custom-loading" message="Loading..."></ion-loading>
 </ion-content>

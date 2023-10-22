@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-buttons slot="start">
+    <ion-button fill="clear" color="primary" (click)="onCancel()">
+      <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <ion-title>
+    {{(mode=='New'?'Usuario nuevo':'Editar usuario')}}
+  </ion-title>
+  <ion-buttons slot="end">
+    <ion-button *ngIf="mode=='Edit'" fill="clear" color="primary" (click)="onDelete()"> 
+      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-header>
+<ion-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()">
+    <ion-item>
+      <ion-input label="Nombre" labelPlacement="start" formControlName="nombre" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Apellidos" labelPlacement="start" formControlName="apellidos" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Edad" labelPlacement="start" formControlName="edad" type="number"></ion-input>
+    </ion-item>
+  </form>
+</ion-content>
+<ion-footer>
+  <ion-button type="submit" [disabled]="!form.valid || !form.dirty" class="ion-padding" expand="full" (click)="onSubmit()">{{mode=='New'?'Crear':'Guardar'}}</ion-button>
+</ion-footer>
