@@ -25,7 +25,6 @@ export class FavPagePage implements OnInit {
   ngOnInit() {
     this.loading = true;
     zip(this.users.getAll(),this.favs.getAll()).subscribe(results=> {
-      results.find(us => us.find(u => u.id))
       this.loading = false;
     });
   }

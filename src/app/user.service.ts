@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, lastValueFrom, tap } from 'rxjs';
 import { User } from './home/user';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 
 export class UserNotFoundException extends Error {
@@ -15,20 +17,35 @@ export class UserService {
   private _users:BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
   public users$:Observable<User[]> = this._users.asObservable();
 
-  constructor() { }
+  constructor(
+    private http:HttpClient
+  ) { }
 
   public addUser(user:User):Observable<User> {
-    return new Observable<User>(observer=>{
+    var _user:any = {
+      nombre: user.nombre,
+      apellidos: user.apellidos,
+      edad: user.edad
+    }
+    
+    return this.http.post<User>(environment.apiUrl+"/users",_user).pipe(tap(_=>{
+      this.getAll().subscribe();
+    }))
+    /*return new Observable<User>(observer=>{
       var users = [...this._users.value];
       user.id = ++this.id;
       users.push(user);
       this._users.next(users);
       observer.next(user);
-    })
+    })*/
   }
 
   public getAll():Observable<User[]> {
-    return new Observable(observer=> {
+    return this.http.get<User[]>(environment.apiUrl+'/users').pipe(tap(
+      (users:User[]) => {
+      this._users.next(users);
+    }))
+    /*return new Observable(observer=> {
       setTimeout(() => {
         var users:User[] = [
           {id: 1,nombre: "Juan",apellidos: "Fernández García",edad: 18,fav: true},
@@ -42,11 +59,12 @@ export class UserService {
         observer.next(users);
         observer.complete();
       }, 1000);
-    });
+    });*/
   }
 
   public getUser(id:number):Observable<User> {
-    return new Observable(observer=> {
+    return this.http.get<User>(environment.apiUrl+`/users/${id}`)
+    /*return new Observable(observer=> {
       setTimeout(() => {
         var user = this._users.value.find(user=>user.id == id);
         if (user) {
@@ -56,11 +74,20 @@ export class UserService {
         }
         observer.complete();
       }, 1000);
-    });
+    });*/
   }
 
   public updateUser(user:User):Observable<User> {
-    return new Observable(observer => {
+    return new Observable<User>(obs => {
+      this.http.patch<User>(environment.apiUrl+`/users/${user.id}`,user).subscribe(_=>{
+        this.getAll().subscribe(_=>{
+          this.getUser(user.id).subscribe(_user=>{
+            obs.next(_user);
+          })
+        })
+      });
+    })
+    /*return new Observable(observer => {
       setTimeout(() => {
         var users = [...this._users.value];
         var index = users.findIndex(us => us.id == user.id);
@@ -73,11 +100,18 @@ export class UserService {
         }
         observer.complete();
       }, 500);
-    })
+    })*/
   }
 
   public deleteUser(user:User):Observable<User> {
-    return new Observable(observer => {
+    return new Observable<User>(obs => {
+      this.http.delete<any>(environment.apiUrl+`/users/${user.id}`).subscribe(_=>{
+        this.getAll().subscribe(_=>{
+          obs.next(user);
+        })
+      });
+    })
+    /*return new Observable(observer => {
       setTimeout(() => {
         var users = [...this._users.value];
         var index = users.findIndex(us => us.id == user.id);
@@ -90,7 +124,7 @@ export class UserService {
         }
         observer.complete();
       },500);
-    });
+    });*/
   }
   
   public deleteAll():Observable<void> {
